@@ -7,10 +7,16 @@ pybind11_add_module(${PROJECT_NAME} SHARED ${sources})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${PROJECT_NAME} 
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_link_libraries(${PROJECT_NAME} 
     PRIVATE glad glm glfw OpenGL::GL)
+
+target_compile_definitions(glad 
+    PUBLIC GLAD_GLAPI_EXPORT 
+    PRIVATE GLAD_GLAPI_EXPORT_BUILD)
+
 
 # add_custom_command(
 #     TARGET ${PROJECT_NAME} 
