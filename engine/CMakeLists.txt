@@ -13,11 +13,6 @@ target_include_directories(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME} 
     PRIVATE glad glm glfw OpenGL::GL)
 
-target_compile_definitions(glad 
-    PUBLIC GLAD_GLAPI_EXPORT 
-    PRIVATE GLAD_GLAPI_EXPORT_BUILD)
-
-
 # add_custom_command(
 #     TARGET ${PROJECT_NAME} 
 #     POST_BUILD
