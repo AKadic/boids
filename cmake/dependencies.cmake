@@ -30,7 +30,7 @@ CPMAddPackage(
 )
 
 # OpenGL
-find_package(OpenGL REQUIRED)
+# find_package(OpenGL REQUIRED)
 
 # PyBind11
 CPMAddPackage(
