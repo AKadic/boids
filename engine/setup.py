@@ -132,8 +132,8 @@ class CMakeBuild(build_ext):
 # logic and declaration, and simpler if you include description/version in a file.
 setup(
     name="engine_akadic01",
-    version="0.0.1",
-    ext_modules=[CMakeExtension("engine_akadic01", "..")],
+    version="0.0.2",
+    ext_modules=[CMakeExtension("engine", "..")],
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False,
     packages=find_packages()
