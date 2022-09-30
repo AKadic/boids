@@ -3,7 +3,7 @@ project(engine LANGUAGES CXX)
 
 file(GLOB_RECURSE sources CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/source/*.cc)
 
-pybind11_add_module(${PROJECT_NAME} SHARED ${sources})
+pybind11_add_module(${PROJECT_NAME} ${sources})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
 
