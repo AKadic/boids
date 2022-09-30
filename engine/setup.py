@@ -109,6 +109,10 @@ class CMakeBuild(build_ext):
                 cmake_args += [
                     "-DCMAKE_OSX_ARCHITECTURES={}".format(";".join(archs))]
 
+        if sys.platform.startswith("linux"):
+                cmake_args += [
+                    "-DCMAKE_OSX_ARCHITECTURES={}".format(";".join(archs))]
+
         # Set CMAKE_BUILD_PARALLEL_LEVEL to control the parallel build level
         # across all generators.
         if "CMAKE_BUILD_PARALLEL_LEVEL" not in os.environ:
@@ -132,7 +136,7 @@ class CMakeBuild(build_ext):
 # logic and declaration, and simpler if you include description/version in a file.
 setup(
     name="engine_akadic01",
-    version="0.0.2",
+    version="0.0.3",
     ext_modules=[CMakeExtension("engine", "..")],
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False,
