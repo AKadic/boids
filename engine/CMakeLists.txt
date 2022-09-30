@@ -10,8 +10,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 if(UNIX AND NOT APPLE)
-    set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -fPIC)
-    set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} -fPIC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 endif()
 
 target_link_libraries(${PROJECT_NAME} 
