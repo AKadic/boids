@@ -1,4 +1,6 @@
+*.egg-info
 *.so
-build
-.vscode
 __pycache__
+.vscode
+build
+dist
