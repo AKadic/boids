@@ -109,10 +109,6 @@ class CMakeBuild(build_ext):
                 cmake_args += [
                     "-DCMAKE_OSX_ARCHITECTURES={}".format(";".join(archs))]
 
-        if sys.platform.startswith("linux"):
-                cmake_args += [
-                    "-DCMAKE_OSX_ARCHITECTURES={}".format(";".join(archs))]
-
         # Set CMAKE_BUILD_PARALLEL_LEVEL to control the parallel build level
         # across all generators.
         if "CMAKE_BUILD_PARALLEL_LEVEL" not in os.environ:
