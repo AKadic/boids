@@ -1,36 +1,20 @@
 #!/usr/bin/env python3
-import config
 import engine
+import time
 import numpy as np
-
-
-def flatten(l):
-    return [item for sublist in l for item in sublist]
-
-
-def draw_boid(renderer, boid):
-    model_matrix = np.identity(4)
-    translation_matrix = np.identity(4)
-    translation_matrix[0][3] = boid.position[0]
-    translation_matrix[1][3] = boid.position[1]
-    model_matrix = np.matmul(translation_matrix, model_matrix)
-
-    renderer.set_mat4(config.program, "model", flatten(model_matrix.tolist()))
-    renderer.draw_triangles(config.triangle, 3)
+import config
+from models import Boid
 
 
 def draw_boids(renderer):
     for boid in config.boids:
-        draw_boid(renderer, boid)
+        boid.draw(renderer)
 
 
-def update_boid(boid):
-    boid.position = np.add(boid.position, boid.velocity)
-
-
-def update_boids():
+def update_boids(delta):
     for boid in config.boids:
-        update_boid(boid)
+        boid.update(delta)
+        boid.wrap()
 
 
 if __name__ == "__main__":
@@ -45,16 +29,34 @@ if __name__ == "__main__":
 
     renderer.use_program(config.program)
 
-    config.boids.append(config.Boid(
-        position=np.array([0, 0]),
-        velocity=np.array([0.01, 0])))
+    config.boids.append(Boid(
+        position=np.array([0, 0])))
+
+    target_fps = 60
+    prev_time = time.time()
+    sum = 0
+    count = 0
 
     while not window.closed:
+        curr_time = time.time()
+        delta = curr_time - prev_time
+        sum += delta
+        count += 1
+        if sum >= 1:
+            print("FPS: ", count)
+            sum = 0
+            count = 0
+
         # Poll
         runtime.poll()
         # Update
-        update_boids()
+        update_boids(delta)
         # Draw
         renderer.clear(0, 0, 0, 1)
         draw_boids(renderer)
         window.present()
+
+        delay = max(1.0/target_fps - delta, 0)
+        time.sleep(delay)
+        fps = 1.0/(delay + delta)
+        prev_time = curr_time
