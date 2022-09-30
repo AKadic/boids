@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 vertices = [
-    -0.5, -0.5, 0.0,
-    0.5, -0.5, 0.0,
-    0.0,  0.5, 0.0
+    -1, -1, 0,
+    1, -1, 0,
+    0,  1, 0
 ]
 
 vertexShaderSource = """
@@ -30,9 +30,3 @@ void main()
 program = None
 vertexObject = None
 boids = []
-
-
-class Boid:
-    def __init__(self, position, velocity):
-        self.position = position
-        self.velocity = velocity
