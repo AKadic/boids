@@ -4,6 +4,19 @@ import time
 import numpy as np
 import config
 from models import Boid
+import random
+
+
+def create_boids(n):
+    boids = []
+
+    for i in range(0, n):
+        x = random.random() * 2 - 1
+        y = random.random() * 2 - 1
+        boids.append(Boid(
+            position=np.array([x, y])))
+
+    return boids
 
 
 def on_click(input):
@@ -33,8 +46,7 @@ if __name__ == "__main__":
 
     renderer.use_program(config.program)
 
-    config.boids.append(Boid(
-        position=np.array([0, 0])))
+    config.boids = create_boids(50)
 
     target_fps = 60
     prev_time = time.time()
