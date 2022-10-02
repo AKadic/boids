@@ -136,5 +136,10 @@ setup(
     ext_modules=[CMakeExtension("engine", "..")],
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False,
-    packages=find_packages()
+    packages=["example"],
+    entry_points={
+        "console_scripts": [
+            "engine_example = example.__main__:main"
+        ]
+    }
 )
