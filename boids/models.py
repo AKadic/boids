@@ -2,6 +2,7 @@
 import config
 import numpy as np
 import math
+import flocking
 
 
 def flatten(l):
@@ -18,7 +19,12 @@ class Boid:
         self.maxForce = config.maxForce
 
     def update(self, delta):
-        force = self.seek(config.target)
+        force = np.array([0, 0])
+
+        force = np.add(force, flocking.cohesion(self))
+        force = np.add(force, flocking.align(self))
+        force = np.add(force, flocking.seperate(self))
+        
         self.acceleration = self.acceleration + force
 
         # Update velocity
