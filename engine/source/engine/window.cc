@@ -2,6 +2,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include "include/engine/input.h"
+
 engine::Window::Window(GLFWwindow *handle) : m_handle{handle} {}
 
 bool engine::Window::Closed() const { return glfwWindowShouldClose(m_handle); }
@@ -13,3 +15,7 @@ void *engine::Window::ProcAddress() const {
 }
 
 void engine::Window::Present() { glfwSwapBuffers(m_handle); }
+
+void engine::Window::OnClick(OnClickHandler handler) {
+  m_onClickHandlers.push_back(handler);
+}

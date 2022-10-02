@@ -1,9 +1,11 @@
+#include <pybind11/functional.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 #include <memory>
 #include <utility>
 
+#include "include/engine/input.h"
 #include "include/engine/renderer.h"
 #include "include/engine/runtime.h"
 #include "include/engine/window.h"
@@ -16,6 +18,10 @@ std::unique_ptr<engine::Runtime> create_runtime() {
 }
 
 PYBIND11_MODULE(engine, m) {
+  py::class_<engine::Input>(m, "PyInput")
+      .def_property_readonly("mouse_position",
+                             &engine::Input::GetMousePosition);
+
   py::class_<engine::Renderer>(m, "PyRenderer")
       .def("clear", &engine::Renderer::Clear)
       .def("create_vertex_object", &engine::Renderer::CreateVertexObject)
@@ -26,7 +32,8 @@ PYBIND11_MODULE(engine, m) {
 
   py::class_<engine::Window>(m, "PyWindow")
       .def_property_readonly("closed", &engine::Window::Closed)
-      .def("present", &engine::Window::Present);
+      .def("present", &engine::Window::Present)
+      .def("on_click", &engine::Window::OnClick);
 
   py::class_<engine::Runtime>(m, "PyRuntime")
       .def("create_renderer", &engine::Runtime::CreateRenderer)

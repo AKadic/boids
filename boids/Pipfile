@@ -4,7 +4,6 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-engine-akadic01 = {editable = true, path = "./../engine"}
 numpy = "*"
 
 [dev-packages]
