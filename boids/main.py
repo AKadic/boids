@@ -6,6 +6,10 @@ import config
 from models import Boid
 
 
+def on_click(input):
+    config.target = input.mouse_position
+
+
 def draw_boids(renderer):
     for boid in config.boids:
         boid.draw(renderer)
@@ -36,6 +40,8 @@ if __name__ == "__main__":
     prev_time = time.time()
     sum = 0
     count = 0
+
+    window.on_click(on_click)
 
     while not window.closed:
         curr_time = time.time()

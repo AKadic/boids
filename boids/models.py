@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import config
 import numpy as np
+import math
 
 
 def flatten(l):
@@ -13,11 +14,11 @@ class Boid:
 
         self.velocity = np.array([0, 0])
         self.acceleration = np.array([0, 0])
-        self.maxSpeed = 2
-        self.maxForce = 0.5
+        self.maxSpeed = config.maxSpeed
+        self.maxForce = config.maxForce
 
     def update(self, delta):
-        force = self.seek(np.array([-0.8, 0.8]))
+        force = self.seek(config.target)
         self.acceleration = self.acceleration + force
 
         # Update velocity
@@ -35,13 +36,22 @@ class Boid:
 
         model_matrix = np.identity(4)
 
-        scale_matrix = np.diag([1/scale, 1/scale, 1, 1])
-        model_matrix = np.matmul(scale_matrix, model_matrix)
+        S = np.diag([1/scale, 1/scale, 1, 1])
+        model_matrix = np.matmul(S, model_matrix)
 
-        translation_matrix = np.identity(4)
-        translation_matrix[0][3] = self.position[0]
-        translation_matrix[1][3] = self.position[1]
-        model_matrix = np.matmul(translation_matrix, model_matrix)
+        theta = math.atan2(-self.velocity[0], self.velocity[1])
+        c, s = np.cos(theta), np.sin(theta)
+        R = np.array([
+            [c, -s, 0, 0],
+            [s, c, 0, 0],
+            [0, 0, 1, 0],
+            [0, 0, 0, 1]])
+        model_matrix = np.matmul(R, model_matrix)
+
+        T = np.identity(4)
+        T[0][3] = self.position[0]
+        T[1][3] = self.position[1]
+        model_matrix = np.matmul(T, model_matrix)
 
         renderer.set_mat4(config.program, "model",
                           flatten(model_matrix.tolist()))
@@ -49,11 +59,15 @@ class Boid:
 
     def seek(self, target):
         desired = np.subtract(target, self.position)
+
+        if np.linalg.norm(desired) == 0:
+            return np.array([0, 0])
+
         # Scale to maximum speed
         normalized = desired / np.sqrt(np.sum(desired**2))
-        desired = np.multiply(normalized, self.maxSpeed)
+        desired = normalized * self.maxSpeed
         # Steering = Desired minus Velocity
-        steering = np.subtract(desired, self.velocity)
+        steering = desired - self.velocity
         steering = np.clip(steering, -self.maxForce, self.maxForce)
 
         return steering

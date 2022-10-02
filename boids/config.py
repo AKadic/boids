@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import numpy as np
+
 vertices = [
     -1, -1, 0,
     1, -1, 0,
@@ -30,3 +32,7 @@ void main()
 program = None
 vertexObject = None
 boids = []
+target = np.array([0, 0])
+
+maxSpeed = 3.5
+maxForce = 0.5
